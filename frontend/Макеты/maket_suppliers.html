@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Макет: Поставщики</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fff; padding: 10px; }
+        .window { border: 2px solid #333; width: 100%; max-width: 800px; padding: 10px; }
+        .top-bar { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .menu { display: flex; gap: 5px; margin-bottom: 15px; }
+        .menu-item { border: 1px solid #333; padding: 5px 15px; background: #e0e0e0; }
+        .menu-item.active { background: #ccc; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        th { background: #e0e0e0; }
+        .btn { border: 1px solid #333; background: #e0e0e0; padding: 2px 5px; font-size: 12px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="window">
+        <div class="top-bar">
+            <div><b>Система учета автозапчастей</b></div>
+            <div class="btn">Выйти</div>
+        </div>
+        <div class="menu">
+            <div class="menu-item">Запчасти</div>
+            <div class="menu-item active">Поставщики</div>
+            <div class="menu-item">Аналоги</div>
+            <div class="menu-item">Продажи</div>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <b>Форма добавления поставщика</b>
+            <div style="display: flex; gap: 10px; margin-top: 5px;">
+                <div style="border: 1px solid #333; padding: 5px; flex: 1;">[ Название организации ]</div>
+                <div style="border: 1px solid #333; padding: 5px; flex: 1;">[ Контактный телефон ]</div>
+                <div class="btn">Добавить</div>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Наименование</th>
+                <th>Контакты</th>
+                <th>Действия</th>
+            </tr>
+            <tr>
+                <td>ООО "АвтоДеталь"</td>
+                <td>+7 (999) 111-22-33</td>
+                <td><button class="btn">Ред.</button> <button class="btn">Удал.</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

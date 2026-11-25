@@ -1,0 +1,39 @@
+body { background: linear-gradient(135deg, #1e3c72 0%, #97FFFF 100%); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.auth-container { width: 100%; max-width: 400px; padding: 20px; }
+.auth-card { background: #fff; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.auth-card h1 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+.input-group { margin-bottom: 15px; position: relative; }
+.input-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+.input-group input { width: 315px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+.input-group input:focus { border-color: #4CAF50; }
+/* Обертка для поля с паролем */
+.password-wrapper {
+    position: relative;
+    width: 100%; /* Обязательно */
+    display: block;
+}
+
+/* Само поле ввода */
+.password-wrapper input {
+    width: 100%;
+    padding-right: 90px; /* Оставляем место справа для кнопки */
+    box-sizing: border-box; /* Чтобы паддинги не расширяли поле */
+}
+
+/* Кнопка "Посмотреть" */
+.toggle-password {
+    position: absolute;
+    right: 15px; /* Отступ от правого края */
+    top: 55%; /* Центрируем по вертикали */
+    transform: translateY(-10%); /* Точное центрирование */
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0;
+    width: auto; /* Убираем растягивание */
+}
+
+.auth-link { text-align: center; margin-top: 15px; font-size: 14px; }
+#submit-login, #btn-register-submit { width: 100%; padding: 14px; background: #4CAF50; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
