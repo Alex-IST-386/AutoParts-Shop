@@ -82,7 +82,7 @@ def partial_update_part(part_id: int, data: PartPatch, db: Session = Depends(get
 
     return part
 
-@router.delete("/{part_id}", response_model = PartOut)
+@router.delete("/{part_id}")
 def delete_part(part_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
 
     if current_user.role != "admin":
@@ -115,6 +115,17 @@ def create_part_model(data: PartModelIn, db: Session = Depends(get_db), current_
 
     return part_model
 
+@router.delete("/compatibility/{part_model_id}")
+def delete_part_model(part_model_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    part_model = db.query(models.PartModel).filter(models.PartModel.id == part_model_id).first()
+
+    if current_user.role not in ["admin", "manager"]:
+        raise HTTPException(403, "Недостаточно прав")
+
+    if not part_model:
+        raise HTTPException(404, "Совместимость запчасти и модели не найдена")
+
+    return {"Уведомление": "Совместимость запчасти и модели удалена"}
 
 @router.get("/{part_id}/analogs", response_model=List[PartOut])
 def get_analogs(part_id: int, db: Session = Depends(get_db)):

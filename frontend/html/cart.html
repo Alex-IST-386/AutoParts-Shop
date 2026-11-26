@@ -2,30 +2,31 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Корзина | АвтоДеталь</title>
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
     <header class="main-header">
-        <a href="parts.html" class="logo">AutoParts Pro</a>
-        <div class="user-profile">
-            <button onclick="logout()" class="btn-secondary" style="margin-right: 15px;">Выйти</button>
-            <img src="../img/avatar_2d.png" alt="User" class="avatar">
-        </div>
+        <div class="logo">AutoParts Pro</div>
+        <nav class="user-profile">
+            <a href="parts.html">Назад в каталог</a>
+            <button class="btn-secondary" onclick="logout()">Выйти</button>
+        </nav>
     </header>
-    <main class="container">
+    <div class="container">
         <h1>Оформление продажи</h1>
         <div class="cart-layout">
-            <div class="cart-items" id="cart-items"><p>Корзина пуста.</p></div>
+            <div class="cart-items" id="cart-items">Корзина пуста.</div>
             <div class="cart-summary">
-                <h2>Итого</h2>
+                <h3>Итого</h3>
                 <div class="total-price">Сумма: <span id="total-price">0</span> ₽</div>
-                <button id="checkout-btn" class="btn-primary">Пробить чек</button>
-                <button onclick="window.location.href='parts.html'" class="btn-secondary" style="margin-top:10px; width:100%;">Назад в каталог</button>
+                <button class="btn-primary" id="checkout-btn" style="width:100%;">Пробить чек</button>
+                <a href="parts.html" class="btn-secondary" style="display:block; text-align:center; margin-top:10px;">Назад в каталог</a>
             </div>
         </div>
-    </main>
+    </div>
     <script src="../js/api.js"></script>
     <script src="../js/cart.js"></script>
 </body>

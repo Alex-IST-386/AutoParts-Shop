@@ -9,7 +9,6 @@ from schemas import SaleOut, SaleIn, SaleItemOut, SaleItemIn
 router = APIRouter(prefix="/sales", tags=["Продажи"])
 
 
-# --- ЧЕКИ ---
 @router.get("/", response_model=List[SaleOut])
 def list_sales(db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     if current_user.role == "admin":

@@ -1,9 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-import models
 from database import engine, Base
-from routers import users, brands, car_models, suppliers, parts, sales
+from routers import users, brands, car_models, suppliers, parts, sales, analogs
 
 Base.metadata.create_all(bind = engine)
 
@@ -23,6 +21,7 @@ app.include_router(car_models.router)
 app.include_router(suppliers.router)
 app.include_router(parts.router)
 app.include_router(sales.router)
+app.include_router(analogs.router)
 
 @app.get("/")
 def root():

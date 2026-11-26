@@ -2,48 +2,46 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Аналоги | АвтоДеталь</title>
     <link rel="stylesheet" href="../css/common.css">
 </head>
 <body>
     <header class="main-header">
-        <a href="parts.html" class="logo">AutoParts Pro</a>
-        <div class="user-profile">
-            <span>Менеджер</span>
-            <button onclick="logout()" class="btn-secondary" style="margin-right: 15px;">Выйти</button>
-            <img src="../img/avatar_2d.png" alt="User" class="avatar">
-        </div>
+        <div class="logo">AutoParts Pro</div>
+        <nav class="user-profile">
+            <a href="admin.html">Назад</a>
+            <button class="btn-secondary" onclick="logout()">Выйти</button>
+        </nav>
     </header>
-    <main class="container">
-        <h1>Справочник аналогов (Кросс-номера)</h1>
-        <p style="margin-bottom: 20px; color: #666;">Здесь отображаются все связи взаимозаменяемости, хранящиеся в базе данных.</p>
-        <div id="analogs-list" style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <p>Загрузка...</p>
+    <div class="container">
+        <h1 class="left-title">Справочник аналогов (Кросс-номера)</h1>
+    </div>
+    <section>
+    <h2>Добавить связь</h2>
+    <form id="analog-form">
+        <div class="input-group">
+            <label for="analog-part">Запчасть</label>
+            <select id="analog-part" required></select>
         </div>
-    </main>
-    <script src="../js/api.js"></script>
-    <script>
-        // Для этой страницы нам нужно получить список всех запчастей, чтобы показать связи
-        // (Так как отдельного эндпоинта для всех аналогов у нас нет, мы просто покажем таблицу)
-        document.addEventListener('DOMContentLoaded', async () => {
-            const res = await fetchWithAuth('/parts/');
-            const container = document.getElementById('analogs-list');
-            if (!res || !res.ok) { container.innerHTML = 'Ошибка загрузки'; return; }
+        <div class="input-group">
+            <label for="analog-analog">Аналог (взаимозаменяемая запчасть)</label>
+            <select id="analog-analog" required></select>
+        </div>
+        <button type="submit" class="btn-primary">Добавить связь</button>
+    </form>
+</section>
 
-            // В реальном проекте тут был бы запрос к /analogs/, но для простоты покажем текст
-            container.innerHTML = `
-                <table style="width:100%; border-collapse: collapse;">
-                    <tr>
-                        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align:left;">Оригинал</th>
-                        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align:left;">Связанные аналоги</th>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;">TOY-04152 (Фильтр Toyota)</td>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;"><span style="background:#e0f2f1; padding:4px 8px; border-radius:4px; margin-right:5px;">DEN-1500</span> <span style="background:#e0f2f1; padding:4px 8px; border-radius:4px;">MAN-7777</span></td>
-                    </tr>
-                </table>
-            `;
-        });
-    </script>
+<section>
+    <h2>Существующие связи</h2>
+    <table>
+        <thead>
+            <tr><th>Запчасть</th><th>Аналог</th><th>Действия</th></tr>
+        </thead>
+        <tbody id="analogs-body"></tbody>
+    </table>
+</section>
+    <script src="../js/api.js"></script>
+    <script src = "../js/analogs.js"></script>
 </body>
 </html>

@@ -35,7 +35,7 @@ def get_one_model(model_id: int, db: Session = Depends(get_db)):
     model = db.query(models.CarModel).filter(models.CarModel.id == model_id).first()
 
     if not model:
-        return HTTPException(404, "Модель авто не найдена")
+        raise HTTPException(404, "Модель авто не найдена")
 
     return model
 
@@ -48,7 +48,7 @@ def update_model(model_id: int, data: CarModelIn, db: Session = Depends(get_db),
     model = db.query(models.CarModel).filter(models.CarModel.id == model_id).first()
 
     if not model:
-        return HTTPException(404, "Модель авто не найдена")
+        raise HTTPException(404, "Модель авто не найдена")
 
     model.name = data.name
     model.brand_id = data.brand_id
@@ -67,7 +67,7 @@ def partial_update_model(model_id: int, data: CarModelPatch, db: Session = Depen
     model = db.query(models.CarModel).filter(models.CarModel.id == model_id).first()
 
     if not model:
-        return HTTPException(404, "Модель авто не найдена")
+        raise HTTPException(404, "Модель авто не найдена")
 
     update_items = data.model_dump(exclude_unset = True)
 
@@ -79,7 +79,7 @@ def partial_update_model(model_id: int, data: CarModelPatch, db: Session = Depen
 
     return model
 
-@router.delete("/{model_id}", response_model = CarModelOut)
+@router.delete("/{model_id}")
 def delete_model(model_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
 
     if current_user.role != "admin":

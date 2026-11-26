@@ -7,8 +7,8 @@ import models
 from database import SessionLocal
 import schemas
 
-from backend.auth import get_current_user
-from backend.schemas import RegisterOut, RegisterIn, Token
+from auth import get_current_user
+from schemas import RegisterOut, RegisterIn, Token
 
 router = APIRouter(tags = ["Пользователи"])
 
@@ -19,6 +19,11 @@ def register_user(user: RegisterIn, db: Session = Depends(auth.get_db)):
         raise HTTPException(status_code = 400, detail = "Пользователь с таким логином уже существует")
 
     hashed_password = auth.get_password_hash(user.password)
+
+    ALLOWED_SELF_ROLES = ["user", "supplier"]
+    if user.role not in ALLOWED_SELF_ROLES:
+        raise HTTPException(status_code=403, detail="Эту роль может выдать только администратор")
+
     new_user = models.User(
         username = user.username,
         password_hash = hashed_password,
@@ -54,3 +59,4 @@ def login_for_access_login(form_data: OAuth2PasswordRequestForm = Depends(), db:
 @router.get("/users/me", response_model = RegisterOut)
 def me(current_user: models.User = Depends(get_current_user)):
     return current_user
+

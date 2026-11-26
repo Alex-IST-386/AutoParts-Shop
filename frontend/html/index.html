@@ -2,49 +2,22 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoParts Pro | Главная</title>
-    <link rel="stylesheet" href="../css/common.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-        }
-        .welcome-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 50px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 500px;
-        }
-        .welcome-box h1 { font-size: 36px; margin-bottom: 10px; }
-        .welcome-box p { font-size: 18px; margin-bottom: 30px; color: #ddd; }
-        .btn-enter {
-            background: #4CAF50; color: white; padding: 15px 40px;
-            font-size: 18px; border: none; border-radius: 8px;
-            cursor: pointer; font-weight: bold; text-decoration: none;
-            display: inline-block; transition: 0.3s;
-        }
-        .btn-enter:hover { background: #43a047; transform: scale(1.05); }
-        .links { margin-top: 30px; font-size: 14px; }
-        .links a { color: #4CAF50; margin: 0 10px; }
-    </style>
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
-    <div class="welcome-box">
+    <header>
         <h1>AutoParts Pro</h1>
-        <p>Система управления магазином автозапчастей с интеллектуальным подбором аналогов</p>
-        <a href="login.html" class="btn-enter">Войти в систему</a>
-
-        <div class="links">
-            <a href="about.html">О проекте</a> |
-            <a href="register.html">Регистрация</a>
-        </div>
+    </header>
+    <div id="relatives">
+        <p style="text-align:center; margin-bottom:20px; color:#555;">
+            Система управления магазином автозапчастей<br>с интеллектуальным подбором аналогов
+        </p>
+        <ol>
+            <li><a href="login.html">Войти в систему</a></li>
+            <li><a href="register.html">Регистрация</a></li>
+        </ol>
     </div>
 </body>
 </html>

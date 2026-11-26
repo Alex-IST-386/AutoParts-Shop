@@ -2,152 +2,135 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Админ панель | АвтоДеталь</title>
     <link rel="stylesheet" href="../css/common.css">
-    <style>
-        /* Стили для вкладок и таблиц */
-        .admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { padding: 10px 20px; border: none; background: #e0e0e0; cursor: pointer; border-radius: 8px; font-weight: bold; }
-        .tab-btn.active { background: #4CAF50; color: white; }
-        .tab-content { display: none; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .tab-content.active { display: block; }
-
-        .form-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-        .form-row input { padding: 10px; border: 1px solid #ddd; border-radius: 8px; flex: 1; }
-
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .admin-table th, .admin-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        .admin-table th { background: #f8f9fa; }
-    </style>
+    <link rel = "icon" href = "../img/admin.png">
 </head>
 <body>
     <header class="main-header">
-        <a href="parts.html" class="logo">AutoParts Admin</a>
-        <div class="user-profile">
+        <div class="logo">AutoParts Admin</div>
+        <nav class="user-profile">
             <span>Администратор</span>
-            <button onclick="logout()" class="btn-secondary" style="margin-right: 15px;">Выйти</button>
-            <img src="../img/avatar_2d.png" alt="User Avatar" class="avatar">
-        </div>
+            <button class="btn-secondary" onclick="logout()">Выйти</button>
+        </nav>
     </header>
-
-    <main class="container">
+    <div class="container">
         <h1>Панель администратора</h1>
 
-        <div class="admin-tabs">
-            <button class="tab-btn active" onclick="openTab('parts-tab', this)">Запчасти</button>
-            <button class="tab-btn" onclick="openTab('suppliers-tab', this)">Поставщики</button>
-            <button class="tab-btn" onclick="openTab('sales-tab', this)">История продаж</button>
-        </div>
-
-        <div id="parts-tab" class="tab-content active">
-            <h2>Добавить новую запчасть</h2>
-            <form id="add-part-form" class="form-row">
-                <input type="text" id="part-article" placeholder="Артикул" required>
-                <input type="text" id="part-name" placeholder="Название" required>
-                <input type="number" id="part-price" placeholder="Цена" required>
-                <input type="number" id="part-stock" placeholder="Остаток" required>
+        <section>
+            <h2>Добавить запчасть</h2>
+            <form id="part-form">
+                <div class="input-group">
+                    <label for="part-article">Артикул</label>
+                    <input type="text" id="part-article" required>
+                </div>
+                <div class="input-group">
+                    <label for="part-name">Название</label>
+                    <input type="text" id="part-name" required>
+                </div>
+                <div class="input-group">
+                    <label for="part-price">Цена</label>
+                    <input type="number" id="part-price" step="0.01" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="part-stock">Остаток</label>
+                    <input type="number" id="part-stock" min="0" required>
+                </div>
+                <div class="input-group">
+                    <label for="part-supplier">Поставщик</label>
+                    <select id="part-supplier"><option value="">— выберите поставщика —</option></select>
+                </div>
                 <button type="submit" class="btn-primary">Создать</button>
             </form>
-            <h3>Список запчастей</h3>
-            <table class="admin-table" id="parts-table">
-                <thead><tr><th>Артикул</th><th>Название</th><th>Цена</th><th>Остаток</th></tr></thead>
-                <tbody id="parts-list"><tr><td colspan="4">Загрузка...</td></tr></tbody>
+            <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr><th>Артикул</th><th>Название</th><th>Цена</th><th>Остаток</th><th>Поставщик</th><th>Действия</th></tr>
+                </thead>
+                <tbody id="parts-body"><tr><td colspan="6">Загрузка...</td></tr></tbody>
             </table>
-        </div>
+            </div>
+        </section>
 
-        <div id="suppliers-tab" class="tab-content">
+        <section>
             <h2>Добавить поставщика</h2>
-            <form id="add-supplier-form" class="form-row">
-                <input type="text" id="sup-name" placeholder="Название организации" required>
-                <input type="text" id="sup-contact" placeholder="Контакты" required>
+            <form id="supplier-form">
+                <div class="input-group">
+                    <label for="supplier-name">Название</label>
+                    <input type="text" id="supplier-name" required>
+                </div>
+                <div class="input-group">
+                    <label for="supplier-contact">Контакты (телефон или email)</label>
+                    <input type="text" id="supplier-contact" required>
+                </div>
                 <button type="submit" class="btn-primary">Добавить</button>
             </form>
-            <h3>Список поставщиков</h3>
-            <table class="admin-table" id="suppliers-table">
-                <thead><tr><th>Название</th><th>Контакты</th></tr></thead>
-                <tbody id="suppliers-list"><tr><td colspan="3">Загрузка...</td></tr></tbody>
+            <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr><th>Название</th><th>Контакты</th><th>Действия</th></tr>
+                </thead>
+                <tbody id="suppliers-body"><tr><td colspan="3">Загрузка...</td></tr></tbody>
             </table>
-        </div>
+            </div>
+        </section>
 
-        <div id="sales-tab" class="tab-content">
+        <section>
+            <h2>Добавить марку</h2>
+            <form id="brand-form">
+                <div class="input-group">
+                    <label for="brand-name">Название</label>
+                    <input type="text" id="brand-name" required>
+                </div>
+                <button type="submit" class="btn-primary">Добавить</button>
+            </form>
+            <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr><th>Название</th><th>Действия</th></tr>
+                </thead>
+                <tbody id="brands-body"><tr><td colspan="2">Загрузка...</td></tr></tbody>
+            </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Добавить модель</h2>
+            <form id="model-form">
+                <div class="input-group">
+                    <label for="model-brand">Марка</label>
+                    <select id="model-brand"><option value="">— выберите марку —</option></select>
+                </div>
+                <div class="input-group">
+                    <label for="model-name">Название</label>
+                    <input type="text" id="model-name" required>
+                </div>
+                <button type="submit" class="btn-primary">Добавить</button>
+            </form>
+            <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr><th>Название</th><th>Марка</th><th>Действия</th></tr>
+                </thead>
+                <tbody id="models-body"><tr><td colspan="3">Загрузка...</td></tr></tbody>
+            </table>
+            </div>
+        </section>
+
+        <section>
             <h2>История продаж</h2>
-            <table class="admin-table" id="sales-table">
-                <thead><tr><th>Дата</th><th>Сумма</th><th>Статус</th></tr></thead>
-                <tbody id="sales-list"><tr><td colspan="4">Загрузка...</td></tr></tbody>
+            <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr><th>Дата</th><th>Сумма</th><th>Статус</th></tr>
+                </thead>
+                <tbody id="sales-body"><tr><td colspan="3">Загрузка...</td></tr></tbody>
             </table>
-        </div>
-    </main>
-
+            </div>
+        </section>
+    </div>
     <script src="../js/api.js"></script>
-    <script>
-        // Функция переключения вкладок
-        function openTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        async function loadParts() {
-            const res = await fetchWithAuth('/parts/');
-            if (!res || !res.ok) return;
-            const parts = await res.json();
-            const tbody = document.getElementById('parts-list');
-            tbody.innerHTML = parts.map(p => `<tr><td>${p.article}</td><td>${p.name}</td><td>${p.price} ₽</td><td>${p.stock_quantity}</td></tr>`).join('');
-        }
-
-        document.getElementById('add-part-form')?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const res = await fetchWithAuth('/parts/', {
-                method: 'POST',
-                body: JSON.stringify({
-                    article: document.getElementById('part-article').value,
-                    name: document.getElementById('part-name').value,
-                    price: parseFloat(document.getElementById('part-price').value),
-                    stock_quantity: parseInt(document.getElementById('part-stock').value),
-                    supplier_id: 1
-                })
-            });
-            if (res && res.ok) { alert('Запчасть добавлена!'); loadParts(); e.target.reset(); }
-            else { alert('Ошибка добавления (нет прав или неверные данные)'); }
-        });
-
-        async function loadSuppliers() {
-            const res = await fetchWithAuth('/suppliers/');
-            if (!res || !res.ok) return;
-            const suppliers = await res.json();
-            const tbody = document.getElementById('suppliers-list');
-            tbody.innerHTML = suppliers.map(s => `<tr><td>${s.name}</td><td>${s.contact_info}</td></tr>`).join('');
-        }
-
-        document.getElementById('add-supplier-form')?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const res = await fetchWithAuth('/suppliers/', {
-                method: 'POST',
-                body: JSON.stringify({
-                    name: document.getElementById('sup-name').value,
-                    contact_info: document.getElementById('sup-contact').value,
-                    user_id: 1 // Заглушка для ID пользователя
-                })
-            });
-            if (res && res.ok) { alert('Поставщик добавлен!'); loadSuppliers(); e.target.reset(); }
-            else { alert('Ошибка добавления (возможно, нужна роль supplier)'); }
-        });
-
-        async function loadSales() {
-            const res = await fetchWithAuth('/sales/');
-            if (!res || !res.ok) return;
-            const sales = await res.json();
-            const tbody = document.getElementById('sales-list');
-            tbody.innerHTML = sales.map(s => `<tr><td>${new Date(s.created_at).toLocaleString('ru-RU')}</td><td>${s.total_price} ₽</td><td><span style="color:green; font-weight:bold;">Оплачен</span></td></tr>`).join('');
-        }
-
-        // Запуск при загрузке
-        document.addEventListener('DOMContentLoaded', () => {
-            loadParts();
-            loadSuppliers();
-            loadSales();
-        });
-    </script>
+    <script src="../js/admin.js"></script>
 </body>
 </html>

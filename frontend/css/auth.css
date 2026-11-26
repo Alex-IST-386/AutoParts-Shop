@@ -4,7 +4,15 @@ body { background: linear-gradient(135deg, #1e3c72 0%, #97FFFF 100%); display: f
 .auth-card h1 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
 .input-group { margin-bottom: 15px; position: relative; }
 .input-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-.input-group input { width: 315px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+.input-group input {
+    width: 100%; /* ИСПРАВЛЕНО: вместо 315px */
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box; /* Важно, чтобы padding не расширял элемент */
+}
+
 .input-group input:focus { border-color: #4CAF50; }
 /* Обертка для поля с паролем */
 .password-wrapper {
@@ -37,3 +45,16 @@ body { background: linear-gradient(135deg, #1e3c72 0%, #97FFFF 100%); display: f
 
 .auth-link { text-align: center; margin-top: 15px; font-size: 14px; }
 #submit-login, #btn-register-submit { width: 100%; padding: 14px; background: #4CAF50; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+.btn-primary {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+.btn-primary:hover { background: #43a047; }

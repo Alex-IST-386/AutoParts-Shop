@@ -77,7 +77,7 @@ def partial_update_brand(brand_id: int, data: BrandPatch, db: Session = Depends(
 
     return brand
 
-@router.delete("/{brand_id}", response_model = BrandOut)
+@router.delete("/{brand_id}")
 def delete_brand(brand_id: int, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     if current_user.role != "admin":
         raise HTTPException(403, "Только администратор может удалять марки")

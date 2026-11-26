@@ -4,6 +4,28 @@ function togglePassword(id, btn) {
     else { input.type = 'password'; btn.textContent = 'Посмотреть'; }
 }
 
+// Определяем роль и выбираем страницу
+async function redirectByRole(token) {
+    try {
+        const meRes = await fetch('http://127.0.0.1:8000/users/me', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (meRes.ok) {
+            const me = await meRes.json();
+            const routes = {
+                admin: 'admin.html',
+                supplier: 'suppliers.html',
+                user: 'parts.html',
+                seller: 'parts.html'
+            };
+            window.location.href = routes[me.role] || 'parts.html';
+            return;
+        }
+    } catch (e) { console.error(e); }
+    // если /users/me недоступен — идём в каталог по умолчанию
+    window.location.href = 'parts.html';
+}
+
 const loginForm = document.getElementById('login');
 if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
@@ -21,7 +43,7 @@ if (loginForm) {
             if (res.ok) {
                 const data = await res.json();
                 localStorage.setItem('access_token', data.access_token);
-                window.location.href = 'parts.html';
+                await redirectByRole(data.access_token);
             } else { alert('Неверный логин или пароль'); }
         } catch (e) { alert('Сервер не отвечает'); }
     });
@@ -42,12 +64,17 @@ if (registerForm) {
                 body: JSON.stringify({
                     username: document.getElementById('username-register').value,
                     password: pass,
-                    role: 'seller',
                     email: document.getElementById('email-register').value || null
                 })
             });
-            if (res.ok) { alert('Успешно! Войдите.'); window.location.href = 'login.html'; }
-            else { const err = await res.json(); alert(`Ошибка: ${err.detail}`); }
+            if (res.ok) {
+                // Регистрация токен не возвращает — после неё идём на вход
+                alert('Регистрация успешна! Теперь войдите.');
+                window.location.href = 'login.html';
+            } else {
+                const err = await res.json();
+                alert(`Ошибка: ${typeof err.detail === 'string' ? err.detail : JSON.stringify(err.detail)}`);
+            }
         } catch (e) { alert('Сервер не отвечает'); }
     });
 }

@@ -2,142 +2,50 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Поставщики | АвтоДеталь</title>
     <link rel="stylesheet" href="../css/common.css">
-    <style>
-        .suppliers-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-        .form-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .form-row input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            flex: 1;
-        }
-        .suppliers-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .suppliers-table th, .suppliers-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        .suppliers-table th {
-            background-color: #f8f9fa;
-            color: #2c3e50;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/suppliers.css">
 </head>
 <body>
     <header class="main-header">
         <a href="parts.html" class="logo">AutoParts Pro</a>
         <div class="user-profile">
             <a href="parts.html" class="btn-secondary" style="margin-right: 15px;">Назад в каталог</a>
-            <span>Менеджер</span>
-            <img src="../img/avatar_2d.png" alt="User" class="avatar">
+            <button onclick="logout()" class="btn-secondary">Выйти</button>
         </div>
     </header>
 
     <main class="container">
-        <h1>Поставщики</h1>
+        <!-- Режим поставщика -->
+        <section id="supplier-section" hidden>
+            <h1>Кабинет поставщика</h1>
 
-        <!-- Форма добавления -->
-        <div class="suppliers-container">
-            <h3>Добавить нового поставщика</h3>
-            <form id="add-supplier-form" class="form-row">
-                <input type="text" id="sup-name" placeholder="Название организации" required>
-                <input type="text" id="sup-contact" placeholder="Телефон или email" required>
+            <h2>Мой профиль</h2>
+            <div id="supplier-profile" class="card">Загрузка...</div>
+
+            <h2>Статус моих поставок</h2>
+            <div id="supplier-parts" class="card">Загрузка...</div>
+        </section>
+
+        <!-- Режим администратора -->
+        <section id="admin-section" hidden>
+            <h1>Управление поставщиками</h1>
+
+            <h2>Добавить нового поставщика</h2>
+            <form id="supplier-form" class="admin-form">
+                <input id="supplier-name" placeholder="Название организации" required>
+                <input id="supplier-contact" placeholder="Контакты (телефон или email)" required>
+                <input id="supplier-user-id" type="number" min="1" placeholder="ID учётной записи (user_id)" required>
                 <button type="submit" class="btn-primary">Добавить</button>
             </form>
-            <div id="error-msg" style="color: red; font-size: 14px;"></div>
-        </div>
 
-        <!-- Список поставщиков -->
-        <div class="suppliers-container">
-            <h3>Список поставщиков</h3>
-            <table class="suppliers-table" id="suppliers-table">
-                <thead>
-                    <tr>
-                        <th>Название</th>
-                        <th>Контакты</th>
-                    </tr>
-                </thead>
-                <tbody id="suppliers-list">
-                    <tr><td colspan="3">Загрузка...</td></tr>
-                </tbody>
-            </table>
-        </div>
+            <h2>Список поставщиков</h2>
+            <div id="suppliers-list" class="card">Загрузка...</div>
+        </section>
     </main>
 
     <script src="../js/api.js"></script>
-    <script>
-        // Загрузка поставщиков при старте
-        async function loadSuppliers() {
-            const res = await fetchWithAuth('/suppliers/');
-            const tbody = document.getElementById('suppliers-list');
-
-            if (!res || !res.ok) {
-                tbody.innerHTML = '<tr><td colspan="3" style="color:red">Ошибка загрузки (возможно, нужны права админа)</td></tr>';
-                return;
-            }
-
-            const suppliers = await res.json();
-            tbody.innerHTML = '';
-            if (suppliers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3">Нет поставщиков</td></tr>';
-                return;
-            }
-
-            suppliers.forEach(s => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td><b>${s.name}</b></td>
-                        <td>${s.contact_info}</td>
-                    </tr>
-                `;
-            });
-        }
-
-        // Обработка формы добавления
-        document.getElementById('add-supplier-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('sup-name').value;
-            const contact = document.getElementById('sup-contact').value;
-            const errorDiv = document.getElementById('error-msg');
-
-            errorDiv.textContent = ''; // Очистка ошибок
-
-            // Отправляем POST-запрос
-            const res = await fetchWithAuth('/suppliers/', {
-                method: 'POST',
-                body: JSON.stringify({
-                    name: name,
-                    contact_info: contact,
-                    user_id: 1 // Заглушка. В реальном проекте здесь был бы ID текущего юзера
-                })
-            });
-
-            if (res && res.ok) {
-                alert('Поставщик успешно добавлен!');
-                document.getElementById('add-supplier-form').reset();
-                loadSuppliers(); // Обновляем таблицу
-            } else {
-                errorDiv.textContent = 'Ошибка добавления. Возможно, у вас нет прав (нужна роль supplier) или такой поставщик уже есть.';
-            }
-        });
-
-        // Запуск при загрузке страницы
-        document.addEventListener('DOMContentLoaded', loadSuppliers);
-    </script>
+    <script src="../js/suppliers.js"></script>
 </body>
 </html>
